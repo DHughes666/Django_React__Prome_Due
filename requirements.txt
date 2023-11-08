@@ -2,3 +2,4 @@ django==4.0
 psycopg2_binary==2.9.2
 djangorestframework==3.13.1
 django-filters==21.1
+pillow==10.1.0
