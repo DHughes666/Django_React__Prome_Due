@@ -86,6 +86,12 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'core_user.User'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'core_user.backends.CaseInsensitiveModelBackend'
+)
+
 WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
 
@@ -149,5 +155,5 @@ MEDIA_ROOT = BASE_DIR / "uploads"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core_user.User'
+
 
