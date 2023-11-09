@@ -44,7 +44,9 @@ INSTALLED_APPS = [
 
     # External apps
     'rest_framework',
+    'rest_framework_simplejwt',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +57,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': 
+    ['django_filters.rest_framework.DjangoFilterBackend'],
+}
 
 ROOT_URLCONF = 'CoreRoot.urls'
 
