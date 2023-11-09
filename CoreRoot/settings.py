@@ -87,10 +87,6 @@ TEMPLATES = [
 ]
 
 AUTH_USER_MODEL = 'core_user.User'
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.AllowAllUsersModelBackend',
-    'core_user.backends.CaseInsensitiveModelBackend'
-)
 
 WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
@@ -101,7 +97,7 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coredb2',
+        'NAME': 'coredb4',
         'USER': 'postgres',
         'PASSWORD': 'Rendition850',
         'HOST': 'localhost',

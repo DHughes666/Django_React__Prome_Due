@@ -46,7 +46,11 @@ class UserManager(BaseUserManager):
         if username is None:
             raise TypeError('Superusers must have a username.')
         
-        user = self.create_user(username, email, password, **kwargs)
+        user = self.create_user(
+            username = username, 
+            email = self.normalize_email(email), 
+            password = password, **kwargs)
+        user.is_admin = True
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -62,6 +66,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -74,10 +80,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return f"{self.email}"
+        return self.username
+    
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+    
+    def has_module_perms(self, app_Label):
+        return True
     
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    
     
 
