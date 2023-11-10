@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'core',
     'core.user',
     'core.auth',
+    'core.post',
 
     # External apps
     'rest_framework',
@@ -86,7 +87,6 @@ TEMPLATES = [
     },
 ]
 
-AUTH_USER_MODEL = 'core_user.User'
 
 WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coredb4',
+        'NAME': 'coredb5',
         'USER': 'postgres',
         'PASSWORD': 'Rendition850',
         'HOST': 'localhost',
@@ -151,8 +151,9 @@ MEDIA_ROOT = BASE_DIR / "uploads"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_CREDENTIALS = True
+AUTH_USER_MODEL = 'core_user.User'
+
+
 
 
 
