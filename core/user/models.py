@@ -6,12 +6,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.http import Http404
 
+from core.abstract.models import AbstractModel, AbstractManager
+
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return "user_{0}/{1}".format(instance.public_id, filename)
 
 # Create your models here.
-class UserManager(BaseUserManager):
+class UserManager(BaseUserManager, AbstractManager):
     def get_object_by_public_id(self, public_id):
         try:
             instance = self.get(public_id = public_id)
@@ -58,9 +60,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    public_id = models.UUIDField(db_index=True, unique=True,
-                                 default=uuid.uuid4, editable=False)
+class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, db_index=True, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -69,8 +69,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     bio = models.TextField(null=True)
     avatar = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
 
