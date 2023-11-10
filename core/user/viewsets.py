@@ -1,13 +1,12 @@
-from rest_framework.permissions import AllowAny
-from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from core.abstract.viewsets import AbstractViewSet
 from core.user.serializers import UserSerializer
 from core.user.models import User
-from django.contrib.auth.hashers import make_password
+
 
 # Create your viewsets here.
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(AbstractViewSet):
     http_method_names = ('put', 'patch', 'get')
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
