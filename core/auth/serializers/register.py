@@ -1,8 +1,7 @@
-from rest_framework import serializers
+from rest_framework import serializers, views
 
 from core.user.serializers import UserSerializer
 from django.contrib.auth import get_user_model
-
 
 
 class RegisterSerializer(UserSerializer):
@@ -11,32 +10,20 @@ class RegisterSerializer(UserSerializer):
     """
     # First we make sure the password is at least 8 characters long
     # and no longer than 128, and can't be read by the user
+    password = serializers.CharField(
+        max_length=128, write_only=True, required=False)
     
     class Meta:
         model = get_user_model()
-        # List of all the fields that can be included in a request
-        # or response
-        fields = ['id', 'bio', 'avatar', 'email', 'username',
-                  'first_name', 'last_name', 'password']
-        extra_kwargs = {'password': {'write_only': True, 
-                                     'min_length': 8,
-                                     'max_length': 128,
-                                     'required': True}}
+        # List of all the fields that can be included in a request or a response
+        fields = ['id', 'bio', 'avatar', 'email', 'username', 'first_name',
+                  'last_name', 'password']
         
-        def create(self, validated_data):
-            """
-            Create and return a user with encrypted password
-            """
-            return get_user_model().objects.create_user(**validated_data)
-        
-        def update(self, instance, validated_data):
-            """Update and return user"""
-            password = validated_data.pop('password', None)
-            user = super().update(instance, validated_data)
-
-            if password:
-                user.set_password(password)
-                user.save()
-            return user
-        
-        
+    #ALWAYS ensure that the `create` method is not in the `Meta` class
+    #Also, use the `create_user` method from the model to create a new user
+    def create(self, validate_data):
+        # Use the `create_user` method we wrote earlier for the
+        # UserManager to create a new user
+        return get_user_model().objects.create_user(**validate_data)
+    
+    
