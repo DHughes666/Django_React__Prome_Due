@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.user.serializers import UserSerializer
 from core.user.models import User
+from django.contrib.auth.hashers import make_password
 
 # Create your viewsets here.
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,3 +21,4 @@ class UserViewSet(viewsets.ModelViewSet):
         obj = User.objects.get_object_by_public_id(self.kwargs['pk'])
         self.check_object_permissions(self.request, obj)
         return obj
+
