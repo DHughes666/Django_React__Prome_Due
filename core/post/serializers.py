@@ -17,6 +17,12 @@ class PostSerializer(AbstractSerializer):
                 "You cannot create a post for another user.")
         return value
     
+    def update(self, instance, validated_data):
+        if not instance.edited:
+            validated_data["edited"] = True
+        instance = super().update(instance, validated_data)
+        return instance
+    
     class Meta:
         model = Post
         # List of all the fields that can be included in a request
@@ -31,3 +37,5 @@ class PostSerializer(AbstractSerializer):
         rep["author"] = UserSerializer(author).data
 
         return rep
+    
+    
