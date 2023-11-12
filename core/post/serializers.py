@@ -10,6 +10,8 @@ from core.user.models import User
 class PostSerializer(AbstractSerializer):
     author = serializers.SlugRelatedField(
         queryset=User.objects.all(), slug_field='public_id')
+    liked = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
     
     def validate_author(self, value):
         if self.context['request'].user != value:
@@ -23,12 +25,21 @@ class PostSerializer(AbstractSerializer):
         instance = super().update(instance, validated_data)
         return instance
     
+    def get_Liked(self, instance):
+        request = self.context.get('request', None)
+        if request is None or request.user.is_anonymous:
+            return False
+        return request.user.has_liked(instance)
+    
+    def get_likes_count(self, instance):
+        return instance.liked_by.count()
+    
     class Meta:
         model = Post
         # List of all the fields that can be included in a request
         # or response
-        fields = ['id', 'author', 'title', 'body', 'edited',
-                  'created', 'updated']
+        fields = ['id', 'author', 'title', 'body', 'edited', 'liked',
+                  'likes_count', 'created', 'updated']
         read_only_fields = ['edited']
 
     def to_representation(self, instance):
