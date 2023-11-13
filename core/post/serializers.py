@@ -25,7 +25,7 @@ class PostSerializer(AbstractSerializer):
         instance = super().update(instance, validated_data)
         return instance
     
-    def get_Liked(self, instance):
+    def get_liked(self, instance):
         request = self.context.get('request', None)
         if request is None or request.user.is_anonymous:
             return False
