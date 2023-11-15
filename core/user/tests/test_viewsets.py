@@ -16,6 +16,7 @@ class TestUserViewSet:
         assert response.status_code == status.HTTP_200_OK
         assert response.data["count"] == 1
 
+    @pytest.fixture
     def test_retrieve(self, client, user):
         client.force_authenticate(user=user)
         response = client.get(self.endpoint + str(user.public_id) + "/")
@@ -34,6 +35,7 @@ class TestUserViewSet:
         response = client.post(self.endpoint, data)
         assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
+    @pytest.fixture
     def test_update(self, client, user):
         client.force_authenticate(user=user)
         data = {
