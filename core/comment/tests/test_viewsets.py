@@ -12,7 +12,7 @@ class TestCommentViewSet:
     endpoint = '/api/post/'
 
     @pytest.fixture
-    def test_list(self, client, post, comment):
+    def test_list(self, client, post):
         client.force_authenticate(user=user)
         response = client.get(self.endpoint + str(post.public_id) + 
                               "/comment/")
