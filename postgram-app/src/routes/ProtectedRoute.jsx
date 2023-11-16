@@ -1,9 +1,19 @@
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({children}) => {
-    const auth = JSON.parse(localStorage.getItem("auth")) || null;
 
-    return auth.user ? <>{children}</> : <Navigate to="/login/" />;
+function getUser() {
+    const auth = JSON.parse(localStorage.getItem("auth")) || null;
+    if (auth) {
+      return auth.user;
+    } else {
+      return null;
+    }
+  }
+
+const ProtectedRoute = ({children}) => {
+    const user = getUser();
+
+    return user ? <>{children}</> : <Navigate to="/login/" />;
 }
 
 export default ProtectedRoute

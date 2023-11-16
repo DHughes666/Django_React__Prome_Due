@@ -1,6 +1,7 @@
 import {Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
+import Registration from './pages/Registration';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       } 
 
       />
+      <Route path='/register/' element={<Registration />} />
     </Routes>
   );
 }
