@@ -20,11 +20,11 @@ const LoginForm = () => {
         setValidated(true)
 
         const data = {
-            username: form.username,
+            email: form.email,
             password: form.password,
         };
 
-        axios.post("http://localhost:8000/api/auth/login", data)
+        axios.post("http://localhost:8000/api/auth/login/", data)
         .then((res) => {
             //Registering the account and tokens in the store
         localStorage.setItem("auth", JSON.stringify({
@@ -52,15 +52,15 @@ const LoginForm = () => {
             onSubmit={handleSubmit}
         >
             <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
+                <Form.Label>Email</Form.Label>
                 <Form.Control 
-                    value={form.username}
+                    value={form.email}
                     onChange={(e) => setForm({
-                        ...form, username: e.target.value
+                        ...form, email: e.target.value
                     })}
                     required
-                    type="text"
-                    placeholder="Enter username"
+                    type="email"
+                    placeholder="Enter email"
                 />
                 <Form.Control.Feedback type="invalid">
                     This field is required
@@ -70,7 +70,7 @@ const LoginForm = () => {
             <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
                 <Form.Control 
-                    value={form.username}
+                    value={form.password}
                     onChange={(e) => setForm({
                         ...form, password: e.target.value
                     })}
