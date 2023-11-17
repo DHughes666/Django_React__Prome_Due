@@ -1,14 +1,6 @@
 import { Navigate } from "react-router-dom";
+import { getUser } from "../hooks/user_actions";
 
-
-function getUser() {
-    const auth = JSON.parse(localStorage.getItem("auth")) || null;
-    if (auth) {
-      return auth.user;
-    } else {
-      return null;
-    }
-  }
 
 const ProtectedRoute = ({children}) => {
     const user = getUser();
