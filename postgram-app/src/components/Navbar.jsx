@@ -8,7 +8,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { randomAvatar } from "../utils";
 
+
 const NavigationBar = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("auth");
+        navigate('/')
+    }
+
     return (
         <Navbar bg="primary" variant="dark">
             <Container>
@@ -17,9 +25,21 @@ const NavigationBar = () => {
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
-                        <NavDropdown>
+                        <NavDropdown 
+                            title={
+                                <Image 
+                                    src={randomAvatar()}
+                                    roundedCircle
+                                    width={36}
+                                    height={36}
+                                />
+                            }
+                        >
                             <NavDropdown.Item>
                                 Profile
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={handleLogout}>
+                                Logout
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
@@ -28,3 +48,5 @@ const NavigationBar = () => {
         </Navbar>
     )
 }
+
+export default NavigationBar;
