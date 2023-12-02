@@ -8,7 +8,7 @@ const useUserActions = () => {
 
     // Login the user
     const login = (data) => {
-        return axios.post(`${baseURL}/auth/login/`, data).then((res) => {
+        return axios.post(`${baseURL}/api/auth/login/`, data).then((res) => {
             // Registering the account and tokens in the store
             setUserData(res.data);
             navigate("/");
@@ -16,7 +16,7 @@ const useUserActions = () => {
     }
 
     const register = (data) => {
-        return axios.post(`${baseURL}/auth/register/`, data).then((res) => {
+        return axios.post(`${baseURL}/api/auth/register/`, data).then((res) => {
             // Registering the account and tokens in the store
             setUserData(res.data);
             navigate("/");
