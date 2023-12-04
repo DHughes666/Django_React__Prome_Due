@@ -1,5 +1,6 @@
 postgram-app/node_modules
 postgram-app2/node_modules
+postgram-app2/.env
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
