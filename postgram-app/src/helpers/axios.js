@@ -29,7 +29,7 @@ axiosService.interceptors.response.use(
 const refreshAuthLogic = async (failedRequest) => {
   return axios
     .post(
-      "/auth/refresh/",
+      "/api/auth/refresh/",
       {
         refresh: getRefreshToken(),
       },

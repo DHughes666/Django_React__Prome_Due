@@ -26,7 +26,7 @@ const useUserActions = () => {
       // Edit the user
   const edit = (data, userId) => {
     return axiosService
-      .patch(`${baseURL}/user/${userId}/`, data, {
+      .patch(`${baseURL}/api/user/${userId}/`, data, {
         headers: {
           "content-type": "multipart/form-data",
         },
@@ -47,7 +47,7 @@ const useUserActions = () => {
   // Logout the user
   function logout() {
     return axiosService
-      .post(`${baseURL}/auth/logout/`, { refresh: getRefreshToken() })
+      .post(`${baseURL}/api/auth/logout/`, { refresh: getRefreshToken() })
       .then(() => {
         localStorage.removeItem("auth");
         navigate("/login");

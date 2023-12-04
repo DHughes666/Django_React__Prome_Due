@@ -31,7 +31,7 @@ const CreatePost = () => {
             author: user.id,
             body: form.body,
         };
-        axiosService.post("/post/", data).then(() => {
+        axiosService.post("/api/post/", data).then(() => {
             handleClose();
             setToastMessage("Post created 🚀");
             setToastType("success");

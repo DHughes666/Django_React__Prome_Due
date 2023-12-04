@@ -11,7 +11,7 @@ import axiosService from "../../helpers/axios";
 
 const Post = ({post, refresh}) => {
     const handleLikeClick = (action) => {
-        axiosService.post(`/post/${post.id}/${action}/`)
+        axiosService.post(`/api/post/${post.id}/${action}/`)
         .then(() => { refresh(); }).catch((e) => console.e);
     };
 
