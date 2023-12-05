@@ -1,24 +1,33 @@
+import { useNavigate } from "react-router-dom";
+import axiosService from "../helpers/axios";
 import axios from "axios";
- import { useNavigate } from "react-router-dom";
 
- const useUserActions = () => {
-    const navigate = useNavigate()
-    const baseURL = process.env.REACT_APP_API_URL
+function useUserActions() {
+  const navigate = useNavigate();
+  const baseURL = process.env.REACT_APP_API_URL;
 
-    // Login the user
-    const login = (data) => {
-        return axios.post(`${baseURL}/auth/login/`, data)
-            .then((res) => {
-                //Registering the account and tokens in the store
-                setUserData(res.data);
-                navigate('/');
-            })
-    }
+  // Login the user
+  const login = (data) => {
+    return axios.post(`${baseURL}/auth/login/`, data).then((res) => {
+      // Registering the account and tokens in the store
+      setUserData(res.data);
+      navigate("/");
+    });
+  }
 
-    // Edit the user
+  // Register the user
+  const register = (data) => {
+    return axios.post(`${baseURL}/auth/register/`, data).then((res) => {
+      // Registering the account and tokens in the store
+      setUserData(res.data);
+      navigate("/");
+    });
+  }
+
+  // Edit the user
   const edit = (data, userId) => {
-    return axios
-      .patch(`${baseURL}/api/user/${userId}/`, data, {
+    return axiosService
+      .patch(`${baseURL}/user/${userId}/`, data, {
         headers: {
           "content-type": "multipart/form-data",
         },
@@ -36,64 +45,62 @@ import axios from "axios";
       });
   }
 
-    // Logout the user
-    const logout = (data) => {
+  // Logout the user
+  const logout = () => {
+    return axiosService
+      .post(`${baseURL}/auth/logout/`, { refresh: getRefreshToken() })
+      .then(() => {
         localStorage.removeItem("auth");
-        navigate('/login');
-    }
+        navigate("/login");
+      });
+  }
 
-    // Register the user
-    const register = (data) => {
-        return axios.post(`${baseURL}/auth/register/`, data).then((res) => {
-            // Registering the account and tokens in the store
-            setUserData(res.data);
-            navigate("/");
-        })
-    }
+  return {
+    login,
+    register,
+    logout, 
+    edit,
+  };
+}
 
-    return {
-        login,
-        register,
-        edit,
-        logout
-    };
-
-    
- }
-
- // Get the user
+// Get the user
 const getUser = () => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
+  const auth = JSON.parse(localStorage.getItem("auth")) || null;
+  if (auth) {
     return auth.user;
+  } else {
+    return null;
+  }
 }
 
 // Get the access token
 const getAccessToken = () => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    return auth.access;
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  return auth.access;
 }
 
 // Get the refresh token
 const getRefreshToken = () => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    return auth.refresh;
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  return auth.refresh;
 }
 
 // Set the access, token and user property
 const setUserData = (data) => {
-    localStorage.setItem(
-        "auth",
-        JSON.stringify({
-            access: data.access,
-            refresh: data.refresh,
-            user: data.user,            
-        })
-    )
+  localStorage.setItem(
+    "auth",
+    JSON.stringify({
+      access: data.access,
+      refresh: data.refresh,
+      user: data.user,
+    })
+  );
 }
 
 export {
-    useUserActions,
-    getUser,
-    getRefreshToken,
-    getAccessToken,
-}
+  useUserActions,
+  getUser,
+  getAccessToken,
+  getRefreshToken,
+  setUserData,
+};
