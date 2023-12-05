@@ -10,7 +10,7 @@ import axios from "axios";
         return axios.post(`${baseURL}/auth/login/`, data)
             .then((res) => {
                 //Registering the account and tokens in the store
-                setUserData(data);
+                setUserData(res.data);
                 navigate('/');
             })
     }

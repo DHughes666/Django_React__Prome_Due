@@ -36,7 +36,7 @@ const RegistrationForm = () => {
                 refresh: res.data.refresh,
                 user: res.data.user
             }));
-
+            
             navigate("/");
         }).catch((err) => {
             if (err.message) {
