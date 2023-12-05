@@ -53,7 +53,7 @@ const refreshAuthLogic = async (failedRequest) => {
 
 createAuthRefreshInterceptor(axiosService, refreshAuthLogic);
 
-export function fetcher(url) {
+export const fetcher = (url) => {
   return axiosService.get(url).then((res) => res.data);
 }
 
