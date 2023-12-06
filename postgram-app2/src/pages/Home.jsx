@@ -38,7 +38,7 @@ const Home = () => {
                         {post.data?.results.map((post, index) => (
                             <Post 
                                 key={index} post={post}
-                                refresh={post.mutate}
+                                refresh={() => post.mutate}
                             />
                         ))}
                     </Row>

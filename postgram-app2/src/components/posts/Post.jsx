@@ -7,7 +7,7 @@ import axiosService from "../../helpers/axios";
 
 const Post = ({ post, refresh }) => {
     const handleLikeClick = (action) => {
-        axiosService.post(`/post/${post.id}/${action}`)
+        axiosService.post(`/post/${post.id}/${action}/`)
         .then(() => {
             refresh();
         })
@@ -71,9 +71,9 @@ const Post = ({ post, refresh }) => {
                             }}
                             onClick={() => {
                                 if (post.liked) {
-                                    handleLikeClick("like");
-                                } else {
                                     handleLikeClick("remove_like");
+                                } else {
+                                    handleLikeClick("like");
                                 }
                             }}
                         />
