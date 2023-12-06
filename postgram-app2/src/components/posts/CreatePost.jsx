@@ -8,7 +8,11 @@ const CreatePost = () => {
     const user = getUser();
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
-    const [form, setForm] = useState({});
+    const [form, setForm] = useState({
+        author: "",
+        title: "",
+        body: "",
+    });
 
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
@@ -29,6 +33,7 @@ const CreatePost = () => {
 
         const data = {
             author: user.id,
+            title: `Post by ${user.name}`,
             body: form.body,
         };
 
