@@ -30,10 +30,11 @@ const CreatePost = () => {
         } 
 
         setValidated(true);
+        console.log(user);
 
         const data = {
             author: user.id,
-            title: `Post by ${user.name}`,
+            title: `Post by ${user.first_name}`,
             body: form.body,
         };
 
