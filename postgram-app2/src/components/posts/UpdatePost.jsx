@@ -1,49 +1,46 @@
 import { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Dropdown } from "react-bootstrap";
 import axiosService from "../../helpers/axios";
-import { getUser } from "../../hooks/user.actions";
 import Toaster from "../Toaster";
 
-const CreatePost = () => {
-    const user = getUser();
+const UpdatePost = ({post, refresh}) => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [form, setForm] = useState({
-        author: "",
-        title: "",
-        body: "",
+        author: post.author.id,
+        body: post.body,
     });
 
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [toastType, setToastType] = useState("");
-    
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const createPostForm = e.currentTarget;
+        const updatePostForm = e.currentTarget;
 
-        if(createPostForm.checkValidity() === false) {
+        if (updatePostForm.checkValidity() === false) {
             e.stopPropagation();
-        } 
+        }
 
         setValidated(true);
-       
-        const data = {
-            author: user.id,
-            title: `Post by ${user.first_name}`,
-            body: form.body,
-        };
 
-        axiosService.post("/post/", data)
+        const data = {
+            author: post.author,
+            body: form.body
+        }
+
+        axiosService.post(`/post/${post.id}/`, data)
         .then(() => {
             handleClose();
-            setToastMessage("Post created 🚀")
+            setToastMessage("Post updated 🚀")
             setToastType("success");
             setForm({})
             setShowToast(true);
+            refresh();
         })
         .catch((error) => {
             setToastMessage("An error occurred.")
@@ -53,20 +50,21 @@ const CreatePost = () => {
 
     return (
         <>
-            <Form.Group className="my-3 w-75">
-                <Form.Control 
-                    className="py-2 rounded-pill border-primary text-primary"
-                    type="text"
-                    placeholder="Write a post"
-                    onClick={handleShow}
-                />
-            </Form.Group>
+            <Dropdown.Item onClick={handleShow}>
+                Modify
+            </Dropdown.Item>
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton className="border-0">
-                    <Modal.Title>Create Post</Modal.Title>
+                    <Modal.Title>Update Post</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="border-0">
-                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Form 
+                        noValidate 
+                        validated={validated} 
+                        onSubmit={handleSubmit}
+                        data-testid="update-post-form"
+                    >
                         <Form.Group className="mb-3">
                             <Form.Control 
                                 name="body"
@@ -76,12 +74,14 @@ const CreatePost = () => {
                                 })}
                                 as="textarea"
                                 rows={3}
+                                data-testid="post-body-field"
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
+                    data-testid="update-post-submit"
                     variant="primary"
                     onClick={handleSubmit}
                     disabled={form.body === undefined}
@@ -101,4 +101,4 @@ const CreatePost = () => {
     )
 }
 
-export default CreatePost;
+export default UpdatePost;

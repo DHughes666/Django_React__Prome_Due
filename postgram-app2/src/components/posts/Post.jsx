@@ -8,11 +8,13 @@ import Toaster from "../Toaster";
 import { randomAvatar } from "../../utils";
 import axiosService from "../../helpers/axios";
 import { getUser } from "../../hooks/user.actions";
+import UpdatePost from "./UpdatePost";
 
 const Post = ({ post, refresh }) => {
     const [showToast, setShowToast] = useState(false);
     const user = getUser();
 
+    // Best toggle feature I've ever seen
     const MoreToggleIcon = forwardRef(({onClick}, ref) => (
         <Link to="#" ref={ref} onClick={(e) => {e.preventDefault(); onClick(e)}}>
             <MoreOutlined />
@@ -61,9 +63,7 @@ const Post = ({ post, refresh }) => {
                             <Dropdown>
                                 <Dropdown.Toggle as={MoreToggleIcon} />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item>
-                                        Update
-                                    </Dropdown.Item>
+                                    <UpdatePost post={post} refresh={refresh}/>
                                     <Dropdown.Item onClick={handleDelete}
                                     className="text-danger">
                                         Delete

@@ -7,7 +7,7 @@ from core.user.models import User
 
 # Create your viewsets here.
 class UserViewSet(AbstractViewSet):
-    http_method_names = ('put', 'patch', 'get')
+    http_method_names = ('post', 'put', 'patch', 'get')
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 

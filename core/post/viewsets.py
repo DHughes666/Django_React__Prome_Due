@@ -30,6 +30,7 @@ class PostViewSet(AbstractViewSet):
         return Response(
             serializer.data, status=status.HTTP_201_CREATED)
     
+        
     @action(methods=['post'], detail=True)
     def like(self, request, *args, **kwargs):
         post = self.get_object()
