@@ -10,7 +10,7 @@ import Post from "../components/posts/Post";
 
 const Home = () => {
     const user = getUser();
-    const post = useSWR("/post/", fetcher, {refreshInterval: 10000});
+    const posts = useSWR("/post/", fetcher, {refreshInterval: 10000});
 
     if (!user) {
         return <Loading />;
@@ -35,10 +35,10 @@ const Home = () => {
                         </Col>
                     </Row>
                     <Row className="my-4">
-                        {post.data?.results.map((post, index) => (
+                        {posts.data?.results.map((post, index) => (
                             <Post 
                                 key={index} post={post}
-                                refresh={() => post.mutate}
+                                refresh={posts.mutate}
                             />
                         ))}
                     </Row>
